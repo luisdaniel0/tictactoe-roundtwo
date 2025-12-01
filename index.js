@@ -37,10 +37,6 @@ squares.forEach((square, index) => {
   });
 });
 
-// squares.addEventListener("click", (e) => {
-//   console.log(e);
-// });
-
 function checkWinner(board) {
   winConditions.forEach((winCon) => {
     //check indices of current winCon array iteration
@@ -67,3 +63,5 @@ restartButton.addEventListener("click", (e) => {
     square.textContent = "";
   });
 });
+
+console.log("");
