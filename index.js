@@ -12,11 +12,17 @@ const winConditions = [
   [0, 4, 8],
 ];
 
+const container = document.querySelector(".container");
 const squares = document.querySelectorAll(".cell");
+const messageBox = document.querySelector(".game-message");
+const restartButton = document.querySelector(".restart-btn");
+container.appendChild(messageBox);
 
 squares.forEach((square, index) => {
   square.addEventListener("click", (e) => {
-    console.log(e.target, index);
+    if (!gameActive) {
+      return;
+    }
     if (board[index] !== "") {
       return;
     }
@@ -28,7 +34,6 @@ squares.forEach((square, index) => {
       playerTurn = "X";
     }
     checkWinner(board);
-    console.log(board);
   });
 });
 
@@ -38,13 +43,27 @@ squares.forEach((square, index) => {
 
 function checkWinner(board) {
   winConditions.forEach((winCon) => {
-    console.log(winCon);
+    //check indices of current winCon array iteration
     let a = winCon[0];
     let b = winCon[1];
     let c = winCon[2];
     if (board[a] === board[b] && board[a] === board[c] && board[a] !== "") {
-      console.log(board[a] + "wins!");
+      messageBox.textContent = `${board[a]} wins!`;
       gameActive = false;
     }
   });
+  if (!board.includes("") && gameActive) {
+    messageBox.textContent = "It's a tie!";
+    gameActive = false;
+  }
 }
+
+restartButton.addEventListener("click", (e) => {
+  board = ["", "", "", "", "", "", "", "", ""];
+  playerTurn = "X";
+  gameActive = true;
+  messageBox.textContent = "";
+  squares.forEach((square) => {
+    square.textContent = "";
+  });
+});
